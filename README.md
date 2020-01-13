@@ -1,2 +1,2 @@
 # Notes
-Study Gitnotes.
+Gitnotes record.
