@@ -1,3 +1,4 @@
+@[toc]
 ##  ECMAScript语法基础
 
 ### 1. 数据类型：
@@ -105,4 +106,6 @@ JavaScript运算符与Java相似，类比Java即可
                 break;
         }
 ```
+
+## 6.基本对象
 
