@@ -71,7 +71,7 @@ JavaScript运算符与Java相似，类比Java即可
 - 用：定义的是局部变量
 - 不用：定义的是全局变量
 
-![image-20200112111155128](C:\Users\j2726\AppData\Roaming\Typora\typora-user-images\image-20200112111155128.png)
+
 
 
 
