@@ -109,7 +109,7 @@ JavaScript运算符与Java相似，类比Java即可
 
 ### 6.基本对象
 
-基本对象：
+**基本对象：**
 Function：函数对象
 Array
 Boolean
