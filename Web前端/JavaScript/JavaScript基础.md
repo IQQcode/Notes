@@ -113,7 +113,7 @@ JavaScript运算符与Java相似，类比Java即可
 Function：函数对象
 Array
 
-![11111.png](0)
+![11111.png](0) 
 Boolean
 Date
 Math
