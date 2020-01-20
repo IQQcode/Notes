@@ -2,6 +2,8 @@
 
 ### 1.XML简介
 
+<kbd>[**W3School参考**](https://www.w3school.com.cn/xml/index.asp)</kbd>
+
 > **XML 被设计用来传输和存储数据**
 >
 > **HTML 被设计用来显示数据**
@@ -75,6 +77,153 @@ no：依赖其他文件
 
 **III. 标签**
 
+标签命名规则：
+
+- 名称可以包含字母、数字以及其他的字符
+- 名称不能以数字或者标点符号开始
+- 名称不能以字母xml（或者XML、Xml等）开始
+- 名称不能包含空格
+
 **IV. 属性**
 
+- ID属性值唯一
+
 **V. 文本**
+
+- CDATA区：在该区域中的数据会被原样展示
+- 格式：`<![ CDATA[数据 ] ] >`
+
+### 4.实体引用
+
+在 XML 中，一些字符拥有特殊的意义。
+
+如果你把字符` "<" `放在 XML 元素中，会发生错误，这是因为解析器会把它当作新元素的开始
+
+这样会产生 XML 错误：
+
+```xml
+<message>if salary < 1000 then</message>
+```
+
+为了避免这个错误，请用==实体引用==来代替 "<" 字符：
+
+```xml
+<message>if salary &lt; 1000 then</message> 
+```
+
+在 XML 中，有 5 个预定义的实体引用：
+
+| &lt;   | <    | 小于   |
+| ------ | ---- | ------ |
+| &gt;   | >    | 大于   |
+| &amp;  | &    | 和号   |
+| &apos; | '    | 单引号 |
+| &quot; | "    | 引号   |
+
+**注释：**在 XML 中，只有字符 "<" 和 "&" 确实是非法的。大于号是合法的，但是用实体引用来代替它是一个好习惯。
+
+
+
+
+
+
+
+### 5.XML约束
+
+约束：规定xml文档的书写规则
+
+![image-20200120101608543](C:\Users\j2726\AppData\Roaming\Typora\typora-user-images\image-20200120101608543.png)
+
+
+
+XML约束分类：
+
+- DTD：一种简单的约束技术
+
+- Schema：一种复杂的约束技术
+
+--------------------------------------------------
+
+
+
+**DTD：引人dtd文档到xml文档中**
+
+- 内部dtd：捋约束规则定义在xml文档中
+
+- 外部dtd：将约束的规则定义在外部的dtd文件中
+
+本地：<!DOCTYPE 根标签名 SYSTEM "dtd文件位置">
+
+网络：<!DOCTYPE 根标签名 PUBLIC "dtd文件名称" "dtd文件位置URL">
+
+
+
+**Schema**
+
+引人：
+
+1. 填写xm1文档的根元素
+2. 引入xsi前缀.xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+3. 引入xsd文件命名空间 `xsi:schemalocation`="https://github.com/IQQcode student.xsd"
+4. 为每一个xsd约束声明一个前缀，作为标识 xmlns="https://github.com/IQQcode"
+
+```xml
+<students xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="https://github.com/IQQcode"
+          xsi:schemaLocation="https://github.com/IQQcode student.xsd">
+    <student number="IQQCode_0001">
+        <name>Mr.Q</name>
+        <age>120</age>
+        <sex>male</sex>
+    </student>
+
+    <student number="IQQCode_0002">
+        <name>IQQcode</name>
+        <age>120</age>
+        <sex>female</sex>
+    </student>
+</students>
+```
+
+
+
+### 6.XML解析
+
+解析：操作xml文档，将文档中的数据读取到内存中
+
+操作xml文档
+
+1. 解析（读取）：将文档中的数据读取到内存中
+
+2. 写入：将内存中的数据保存到xml文档中，持久化的存储
+
+
+
+**解析xml的方式**
+
+1. DOM：捋标记语言文档一次性加载进内存，在内存中形成一颗dom树
+
+- 优点：操作方便，可以对文档进行CRUD的所有操作
+
+- 缺点：占内存
+
+2. SAX：逐行读取，基于事件驱动的。
+
+- 优点：不占内存。
+
+- 缺点：只能读取，不能增删测
+
+
+
+#### xml常见的解析器
+
+1. JAXP:sun公司提供的解析器，支持DON和SAX两种思想
+
+2. DoM4J：一款非常优秀的解析器
+
+3. Jsoup：是一款Java的HTML解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API，可通过DOM，CSS以及类似于jouery的操作方法来取出和操作数据。
+
+4.PULL：Android操作系统内置的解析器，SAX方式。
+
+
+
