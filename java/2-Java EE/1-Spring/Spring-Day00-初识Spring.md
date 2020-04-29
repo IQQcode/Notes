@@ -1,71 +1,40 @@
-﻿@[TOC](SpringFramework简介)
 ### 1. Spring介绍
 
-- **Spring是一个开源框架，是为了解决企业应用程序开发复杂性而创建的**
-- **Spring以IoC、AOP为主要思想构建的JavaEE框架**
-- **Spring是一个“一站式”框架，即Spring在JavaEE的三层架构：表现层（Web层）、业务逻辑层（Service
-  层）、数据访问层（DAO即Data Access Object ) 中，每一层均提供了不同的解决技术****
-- **Spring: 控制class 与 class之间的关系**
-- **Spring是容器，是框架，也是技术**
+- Spring是一个开源框架，是为了解决企业应用程序开发复杂性而创建的
+- Spring以**IoC**、**AOP**为主要思想构建的JavaEE框架
+- Spring是一个“一站式”框架，Spring在表现层（Web层）、业务逻辑层（Service层）、数据访问层（Dao层 ) 中，均提供了不同的解决方案
+-  Spring是容器，是框架，也是技术
 
 [**Spring官网**](https://spring.io/)
 
-**Spring框架提供的模块：**
+### 2. Spring的优势
+
+**a. 方便解耦，简化开发**
+
+通过Spring提供的IoC容器，可以将对象间的依赖关系交由Spring进行控制，避免硬编码所造成的过度程序==耦合==(类之间的依赖关系)。
+
+**b. AOP的支持**
+
+通过Spring的AOP功能，方便进行面向切面的编程。
+
+AOP是什么？
+
+—AOP是面向切面编程，它完成了：纵向重复，横向抽取的一个事情
+
+什么时候用AOP：
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pcXFjb2RlLWJsb2cub3NzLWNuLWJlaWppbmcuYWxpeXVuY3MuY29tL2ltZy8yMDIwMDQyMzE1Mzg1Ny5wbmc?x-oss-process=image/format,png)
+**声明式事务的支持**
+
+可以将我们从单调烦闷的事务管理代码中解脱出来，通过声明式方式灵活的进行事务的管理，提高开发效率和质量。
+
+**方便集成各种优秀框架**
+
+Spring可以降低各种框架的使用难度，提供了对各种优秀框架（Struts、Hibernate、Hessian、Quartz等）的直接支持。
+
+**Spring框架体系结构：**
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190731224240198.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzIzMjk1NQ==,size_16,color_FFFFFF,t_70)
-
-
-
-### 2. Spring核心思想
-
-#### 2.1 基本概念
-
-- IoC( Inversion of Control )：控制反转，将创建对象的权力和生命周期的管理过程交付给Spring框架来处理;
-
-  在开发过程中不再需要关注对象的创建和生命周期的管理，在需要的时候由Spring框架提供
-
-- IoC容器：实现了IoC思想的容器就是IoC容器，比如：SpringFremework
-
-- DI( Dependency Injection )：在创建对象的过程中Spring依据配置对==对象==进行属性设置，那么这个过程称之为依赖注入
-
-#### 2.2 IoC容器的特点
-
-- 无需主动new对象
-- 不需要主动装配对象之间的依赖关系；
-- 迪米特法则：（面向抽象编程），松散耦合，一个对象应当对其它对象有尽可能少的了解
-
-**IoC是一种让消费者不直接依赖于服务提供者的组件设计方式，是一种减少类与类之间依赖的设计原则**
-
-#### 2.3 理解IoC容器
-
-容器：提供组件运行环境，管理组件生命周期
-
-- 谁控制谁？为什么叫反转？
-  答：IoC容器控制，而以前是应用程序控制，所以叫反转
-- 控制什么？
-  答：控制应用程序所需要的资源（对象、文件……）
-- 为什么控制？
-  答：解耦组件之间的关系
-- 控制的哪些方面被反转了？
-  答：程序的控制权发生了反转，从应用程序转移到了IoC容器
-
-#### 2.4 理解DI
-
-- 谁依赖于谁？
-  答：应用程序依赖于IoC容器
-- 为什么需要依赖？
-  答：应用程序依赖于IoC容器装配类之间的关系
-- 依赖什么东西？
-  答：依赖了IoC容器的装配功能
-- 谁注入于谁？
-  答：IoC容器注入应用程序
-  特点说明
-- 注入什么东西？
-  答：注入应用程序需要的资源（类之间的关系）
-
-
-
-### 3. Spring框架的特点
+**Spring框架的特点**
 
 |     特点     | 说明                                                         |
 | :----------: | ------------------------------------------------------------ |
@@ -77,9 +46,65 @@
 |   事务管理   | Spring对下至本地业务上至全局业务(JAT)提供了统一的事务管理接口 |
 |   异常处理   | Spring提供一个方便的API将特定技术的异常(由JDBC, Hibernate, 或JDO抛出)转化为一致的、 Unchecked异常 |
 
+### 3. Spring核心思想
+#### 3.1 基本概念
+- IoC( Inversion of Control )：控制反转，将创建对象的权力和生命周期的管理过程交付给Spring框架来处理；在开发过程中不再需要关注对象的创建和生命周期的管理，在需要的时候由Spring框架提供
+
+- IoC容器：实现了IoC思想的容器就是IoC容器，比如：SpringFremework
+
+- DI ( Dependency Injection )：在创建对象的过程中，Spring依据配置来对==对象==进行属性设置，那么这个过程称之为依赖注入
+
+#### 3.2 IoC容器的特点
+
+- 无需主动`new`对象
+- 不需要主动装配对象之间的依赖关系；
+- 迪米特法则：面向抽象编程，松散耦合，一个对象应当对其它对象有尽可能少的了解
+
+**IoC是一种让消费者不直接依赖于服务提供者的组件设计方式，是一种减少类与类之间依赖的设计原则**
+
+#### 3.3 理解IoC容器
+
+容器：提供组件运行环境，管理组件生命周期
+
+- 谁控制谁？为什么叫反转？
+
+ 	答：IoC容器控制，而以前是应用程序控制，所以叫反转
+- 控制什么？
+  
+  答：控制应用程序所需要的资源（对象、文件……）
+- 为什么控制？
+  
+  答：解耦组件之间的关系，削减类之间的耦合度
+- 控制的哪些方面被反转了？
+  
+  答：程序的控制权发生了反转，从应用程序转移到了IoC容器
+
+#### 3.4 理解DI
+
+- 谁依赖于谁？
+  
+  答：应用程序依赖于IoC容器
+- 为什么需要依赖？
+  
+  答：应用程序依赖于IoC容器来装配类之间的关系
+- 依赖什么？
+  
+  答：依赖了IoC容器的装配功能
+- 谁注入于谁？
+  
+  答：IoC容器注入应用程序
+  
+- 注入什么东西？
+  
+  答：注入应用程序需要的资源（类之间的关系）
 
 
-### 4. Spring简单案例
+
+
+
+
+
+### 5. Spring简单案例
 我们先来定义`class UserInfo`
 
 ```java
@@ -236,7 +261,6 @@ public class DemoTest {
     </bean>
 ```
 
-
 ---
 如果出错的话，在`applicationContext.xml`中重新添加配置文件
 
@@ -291,17 +315,6 @@ public class DemoTest {
             <artifactId>spring-aop</artifactId>
             <version>5.1.5.RELEASE</version>
         </dependency>
-
     </dependencies>
-
 </project>
 ```
-
-[**所需要的配置文件在mvn官网添加**](https://mvnrepository.com/)
-
-`spring core`
-`spring context`
-`spring beans`
-`spring aop`
-
-
