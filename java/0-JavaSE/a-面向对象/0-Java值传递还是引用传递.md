@@ -1,5 +1,5 @@
 > 文章多半内容为转载，转载自公众号[Hollis](https://mp.weixin.qq.com/s?__biz=MzI3NzE0NjcwMg==&mid=2650127218&idx=1&sn=f33a8f28e348519497921e074a01b758&chksm=f36ba653c41c2f453a1bef3715f22e07951586f12a2d9cf1f806585ced790dad7ea4968fae50&mpshare=1&scene=1&srcid=0511uiDvBikPBU2CCzsOwa3Y&sharer_sharetime=1589196963977&sharer_shareid=07633cd1d3facbfb7e1405bf63a3d2ca&key=1afad850a7d336760f3faf6ce8add0ef88c58fdd9b94dcf9db43751a28c1aa2024da35eaa45a811b564519dcb4437f710b90299b5e4c79c95b90e8263210d5bde0b29e2ce56e2d449d0a35c5fb24e73a&ascene=1&uin=MTE1Mjk1NTAwNQ%3D%3D&devicetype=Windows+10+x64&version=62090072&lang=zh_CN&exportkey=A1RgMyTHM1o8w7ArwJG77K8%3D&pass_ticket=4CGMr5smdr8Z2HI0yidJHCP%2BRg3MKjNz6TMmbhQIvTpPnIt4BjEptIc0zoiET46Y)关于**我要彻底给你讲清楚，Java就是值传递，不接受争辩的那种！**
->
+> 
 > - 原文链接：[我要彻底给你讲清楚，Java就是值传递，不接受争辩的那种！](https://mp.weixin.qq.com/s?__biz=MzI3NzE0NjcwMg==&mid=2650127218&idx=1&sn=f33a8f28e348519497921e074a01b758&chksm=f36ba653c41c2f453a1bef3715f22e07951586f12a2d9cf1f806585ced790dad7ea4968fae50&mpshare=1&scene=1&srcid=0511uiDvBikPBU2CCzsOwa3Y&sharer_sharetime=1589196963977&sharer_shareid=07633cd1d3facbfb7e1405bf63a3d2ca&key=1afad850a7d336760f3faf6ce8add0ef88c58fdd9b94dcf9db43751a28c1aa2024da35eaa45a811b564519dcb4437f710b90299b5e4c79c95b90e8263210d5bde0b29e2ce56e2d449d0a35c5fb24e73a&ascene=1&uin=MTE1Mjk1NTAwNQ%3D%3D&devicetype=Windows+10+x64&version=62090072&lang=zh_CN&exportkey=A1RgMyTHM1o8w7ArwJG77K8%3D&pass_ticket=4CGMr5smdr8Z2HI0yidJHCP%2BRg3MKjNz6TMmbhQIvTpPnIt4BjEptIc0zoiET46Y)
 > - 知乎回答链接：[**Java 到底是值传递还是引用传递？**](https://www.zhihu.com/question/31203609)
 > - 知乎回答链接：[String str = "Hello"，到底有没有在堆中创建对象？](https://www.zhihu.com/question/29884421)
@@ -10,9 +10,9 @@
 **结论：Java只有值传递，没有引用传递！**
 
 > 错误理解一：值传递和引用传递，区分的条件是传递的内容，如果是个值，就是值传递。如果是个引用，就是引用传递。
->
+> 
 > 错误理解二：Java是引用传递。
->
+> 
 > 错误理解三：传递的参数如果是普通类型，那就是值传递，如果是对象，那就是引用传递。
 
 ### 实参与形参
@@ -20,9 +20,7 @@
 我们都知道，在Java中定义方法的时候是可以定义参数的。比如ava中的main方法，`public static void main(String[] args)`，这里面的args就是参数。参数在程序语言中分为形式参数和实际参数。
 
 > 形式参数：是在定义函数名和函数体的时候使用的参数,目的是用来接收调用该函数时传入的参数。
->
 > 
->
 > 实际参数：在调用有参函数时，主调函数和被调函数之间有数据传递关系。在主调函数中调用一个函数时，函数名后面括号中的参数称为“实际参数”。
 
 简单举个例子：
@@ -57,14 +55,12 @@ str = "java";
 
 如上图所示，"hello" 字符串对象没有被改变。（**没有被任何引用所指向的对象是垃圾，会被垃圾回收器GC回收**）
 
-
-
 ### 值传递与引用传递
 
 上面提到了，当我们调用一个有参函数的时候，会把实际参数传递给形式参数。但是，在程序语言中，这个传递过程中传递的两种情况，即值传递和引用传递。我们来看下程序语言中是如何定义和区分值传递和引用传递的
 
 > 值传递（pass by value）是指在调用函数时将实际参数**复制**一份传递到函数中，这样在函数中如果对参数进行修改，将不会影响到实际参数。
->
+> 
 > 引用传递（pass by reference）是指在调用函数时将实际参数的**地址**直接传递到函数中，那么在函数中对参数所进行的修改，将影响到实际参数。
 
 - 值传递：将参数复制一份，修改形参不会对实参造成影响
@@ -166,15 +162,11 @@ print in pass , User{name='Tom', sex='man'}
 print in main , User{name='Tom', sex='man'}
 ```
 
-
-
 看看在调用中，到底发生了什么？
 
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200512155756.png)
 
 在参数传递的过程中，实际参数的地址`0x666`被**拷贝**给了形参。这个过程其实就是值传递(这个值，理解为引用的地址)，只不过传递的值得内容是对象的应用。
-
-
 
 那为什么我们改了`user`中的属性的值，却对原来的user产生了影响呢？
 
@@ -227,8 +219,6 @@ print in main , User{name='Mr.Q'}
 
 - 传递的值在栈中，直接拷贝一份值传递，改变的形参不会对实参造成影响
 - 传递的值在栈中存放的是地址（引用），先根据栈中的地址找到在堆上的值，然后把地址拷贝一份（**拷贝的地址**是一个值），此时形参和实参指向堆上同一个地址，形参的修改导致了实参的改变。
-
-
 
 **<font color=red >Java中的参数传递，是值传递!</font>**
 
