@@ -174,6 +174,9 @@ get(1); //test
 
 HashMap的位桶数组，初始大小为16。实际使用时，显然大小是可变的。如果位桶数组中的元素达到`0.75 * 数组length`，就重新调整数组大小变为原来的2倍大小。
 
+- 16为初始容量
+- 0.75为加载因子
+
 HashMap 总是使用2的幂作为哈希表的大小，`tableSize`方法保证了 HashMap 总是使用2的幂作为哈希表的大小：
 
 ```java
@@ -345,11 +348,11 @@ public class ObjCompare {
     - key存在：  
       
        - 通过字符（key），获取vaue（字符个数）  
-      
+       
        - value++  
-      
+       
        - put（key, value）把新的 value存储到Map集合中  
-   
+      
     - key不存在：  
       
        - put（key, 1）  

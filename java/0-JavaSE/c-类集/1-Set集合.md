@@ -21,7 +21,7 @@ Set集合在调用`add()`的时候，`add()`会自动调用`hashCode()`和`equal
 - hash值相同，调用equals比较
   
    - equals比较相同，元素重复，不能插入
-    
+   
    - equals比较不同，元素不存在，可以插入
 
 - hash值不同，元素不存在，可以插入
@@ -53,6 +53,20 @@ Set集合在调用`add()`的时候，`add()`会自动调用`hashCode()`和`equal
 3. 是一个无序的集合，存储元素和取出元素顺序可能不一致
 
 4. 底层是一个哈希表结构（查询速度快）
+
+	
+
+**底层实现：**HashSet底层是基于HashMap来实现的（或者范围大一点的说，Set的底层就是基于Map来实现的，TreeSet基于TreeMap）
+
+我们看源码来验证一下：
+
+- 构造方法
+
+![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200606174608.png)
+
+- add方法
+
+![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200606174140.png)
 
 **哈希值：** 是一个十进制的整数，由系统随机给出（模拟出来的对象的逻辑地址）
 
