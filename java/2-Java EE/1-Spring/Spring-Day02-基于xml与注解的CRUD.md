@@ -30,9 +30,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>sprin应用程序的入口main方法。 Junit单元测试中，没有main方法也能执行Junit集成了一个main方法，该方法就会判断当前测试类中哪些方法有@Test注解，Junt就让有Test注解的方法执行
- Junit不会管我们是否采用 spring框架，在执行测试方法时， Junit根本不知道我们是不是使用了 spring框架，所以也就不会为我们读取配置文件/配置类创建 spring核心容器
-由以上三点可知当测试方法执行时，没有Ioc容器，就算写了 Autowired注解，也无法实现注入g-test</artifactId>
+            <artifactId>spring-test</artifactId>
             <version>5.1.9.RELEASE</version>
         </dependency>
         <dependency>
@@ -126,7 +124,7 @@
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <!--连接数据库的必备信息-->
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/db_test?characterEncoding=utf-8&amp;useSSL=false"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/db_test?characterEncoding=utf-8&useSSL=false"/>
         <property name="user" value="root"/>
         <property name="password" value="1234"/>
     </bean>
@@ -243,7 +241,6 @@ import org.springframework.context.annotation.PropertySource;
 @Import(JdbcConfig.class)
 @PropertySource("classpath:jdbcConfig.properties")
 public class SpringConfiguration {  }
-
 ```
 
 <kbd>jdbcConfig</kbd>
@@ -321,16 +318,12 @@ jdbc.password=root
 
 应用程序的入口**main**方法。 Junit单元测试中，没有main方法也能执行Junit集成了一个main方法，该方法就会判断当前测试类中哪些方法有`@Test`注解，Junt就让有Test注解的方法执行
 
-
  Junit不会管我们是否采用 spring框架，在执行测试方法时， Junit根本不知道我们是不是使用了 spring框架，所以也就不会为我们读取配置文件/配置类创建 spring核心容器
 由以上三点可知当测试方法执行时，没有Ioc容器，就算写了 Autowired注解，也无法实现注入
-
-
 
 ### 使用spring-test单元测试
 
 Spring整合Junit的配置
-
 
 1. 导入Junti的jar包
 
@@ -341,7 +334,6 @@ Spring整合Junit的配置
     - @Context Confiquration Locations：指定XML文件的位置，加上 cLasspath关键字，表示在类路径下
    
     - classes：指定注解类所在地位置
-
 
 当我们使用 spring5.x版本的时候，要求Junit的jar必须是4.12及以上
 

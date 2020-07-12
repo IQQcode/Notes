@@ -3,7 +3,7 @@
 - Spring是一个开源框架，是为了解决企业应用程序开发复杂性而创建的
 - Spring以**IoC**、**AOP**为主要思想构建的JavaEE框架
 - Spring是一个“一站式”框架，Spring在表现层（Web层）、业务逻辑层（Service层）、数据访问层（Dao层 ) 中，均提供了不同的解决方案
--  Spring是容器，是框架，也是技术
+- Spring是容器，是框架，也是技术
 
 [**Spring官网**](https://spring.io/)
 
@@ -36,18 +36,20 @@ Spring可以降低各种框架的使用难度，提供了对各种优秀框架�
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190731224240198.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzIzMjk1NQ==,size_16,color_FFFFFF,t_70)
 **Spring框架的特点**
 
-|     特点     | 说明                                                         |
-| :----------: | ------------------------------------------------------------ |
-|    轻量级    | Spring在大小和透明性方面属于轻量级的                         |
-|   控制反转   | Spring使用控制反转技术实现了松耦合。依赖被注入到对象，而不是创建或寻找依赖对象 |
-| 面向切面编程 | Spring支持面向切面编程，同时把应用的业务逻辑与系统的服务分离开来 |
-|     容器     | Spring包含并管理应用程序对象的配置及生命周期                 |
-|   MVC框架    | Spring的web框架是一个设计优良的Web MVC框架，很好的取代了一些web框架 |
-|   事务管理   | Spring对下至本地业务上至全局业务(JAT)提供了统一的事务管理接口 |
-|   异常处理   | Spring提供一个方便的API将特定技术的异常(由JDBC, Hibernate, 或JDO抛出)转化为一致的、 Unchecked异常 |
+| 特点     | 说明                                                                    |
+|:------:| --------------------------------------------------------------------- |
+| 轻量级    | Spring在大小和透明性方面属于轻量级的                                                 |
+| 控制反转   | Spring使用控制反转技术实现了松耦合。依赖被注入到对象，而不是创建或寻找依赖对象                            |
+| 面向切面编程 | Spring支持面向切面编程，同时把应用的业务逻辑与系统的服务分离开来                                   |
+| 容器     | Spring包含并管理应用程序对象的配置及生命周期                                             |
+| MVC框架  | Spring的web框架是一个设计优良的Web MVC框架，很好的取代了一些web框架                           |
+| 事务管理   | Spring对下至本地业务上至全局业务(JAT)提供了统一的事务管理接口                                  |
+| 异常处理   | Spring提供一个方便的API将特定技术的异常(由JDBC, Hibernate, 或JDO抛出)转化为一致的、 Unchecked异常 |
 
 ### 3. Spring核心思想
+
 #### 3.1 基本概念
+
 - IoC( Inversion of Control )：控制反转，将创建对象的权力和生命周期的管理过程交付给Spring框架来处理；在开发过程中不再需要关注对象的创建和生命周期的管理，在需要的时候由Spring框架提供
 
 - IoC容器：实现了IoC思想的容器就是IoC容器，比如：SpringFremework
@@ -67,14 +69,17 @@ Spring可以降低各种框架的使用难度，提供了对各种优秀框架�
 容器：提供组件运行环境，管理组件生命周期
 
 - 谁控制谁？为什么叫反转？
+  
+     答：IoC容器控制，而以前是应用程序控制，所以叫反转
 
- 	答：IoC容器控制，而以前是应用程序控制，所以叫反转
 - 控制什么？
   
   答：控制应用程序所需要的资源（对象、文件……）
+
 - 为什么控制？
   
   答：解耦组件之间的关系，削减类之间的耦合度
+
 - 控制的哪些方面被反转了？
   
   答：程序的控制权发生了反转，从应用程序转移到了IoC容器
@@ -84,27 +89,25 @@ Spring可以降低各种框架的使用难度，提供了对各种优秀框架�
 - 谁依赖于谁？
   
   答：应用程序依赖于IoC容器
+
 - 为什么需要依赖？
   
   答：应用程序依赖于IoC容器来装配类之间的关系
+
 - 依赖什么？
   
   答：依赖了IoC容器的装配功能
+
 - 谁注入于谁？
   
   答：IoC容器注入应用程序
-  
+
 - 注入什么东西？
   
   答：注入应用程序需要的资源（类之间的关系）
 
-
-
-
-
-
-
 ### 5. Spring简单案例
+
 我们先来定义`class UserInfo`
 
 ```java
@@ -129,8 +132,8 @@ public class UserInfo {
         return "Hello Spring! " + username;
     }
 }
-
 ```
+
 再定义`class DemoTest`
 
 ```java
@@ -143,6 +146,7 @@ public class DemoTest {
     }
 }
 ```
+
 实例化`UserInfo`之后，我们便拿到了`UserInfo`的属性并输出
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190801152745100.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzIzMjk1NQ==,size_16,color_FFFFFF,t_70)
 以上的操作过程为：
@@ -157,6 +161,7 @@ public class DemoTest {
 <img src = "https://img-blog.csdnimg.cn/20190801154545760.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzIzMjk1NQ==,size_16,color_FFFFFF,t_70" width = "50%">
 
 `UserInfo`
+
 ```java
 /**
  * @Author: Mr.Q
@@ -190,6 +195,7 @@ public class UserInfo {
     }
 }
 ```
+
 `DemoTest`
 
 ```java
@@ -224,6 +230,7 @@ public class DemoTest {
     }
 }
 ```
+
 **resources下是配置文件，配置接口以及类的关系**
 
 `applicationContext.xml`
@@ -240,7 +247,7 @@ public class DemoTest {
     http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd">
-    
+
     <!--UserInfo userInfo = new UserInfo();-->
     <bean id="userInfo" class="com.iqqcode.bean.UserInfo">
 
@@ -251,10 +258,11 @@ public class DemoTest {
 
 </beans>
 ```
+
 ```html
 <!--UserInfo userInfo = new UserInfo();-->
     <bean id="userInfo" class="com.iqqcode.bean.UserInfo">
-    
+
         <!--constructor注入-->
         <constructor-arg name="username" value="Mr.Q"/>
 
@@ -262,6 +270,7 @@ public class DemoTest {
 ```
 
 ---
+
 如果出错的话，在`applicationContext.xml`中重新添加配置文件
 
 ```html

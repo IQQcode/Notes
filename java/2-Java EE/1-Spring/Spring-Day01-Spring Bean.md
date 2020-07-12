@@ -2,7 +2,7 @@
 
 现在我们来谈谈什么是**Bean对象**，还得先从**JavaBean**说起......
 
-### JavaBean
+### 1. JavaBean
 
 JavaBean 是一种 Java语言写成的可重用组件。写成JavaBean，类必须是具体的和公共的，并且具有无参数的构造器。JavaBean 通过提供符合一致性设计模式的公共方法将内部域暴露成员属性，long和class方法获取。众所周知，属性名称符合这种模式，其他Java 类可以通过自省机制发现和操作这些JavaBean 的属性。(这段话太官方，咱看的迷迷糊糊的，举个实例来说)
 
@@ -127,7 +127,7 @@ Xxx = new xx.XxClass()
 
 #### I. 使用默认构造函数创建
 
- 在Spring的配置文件中使用`Bean`标签，配以`id`和`class`属性之后，且没有其他属性和标签时。 采用的就是默认构造函数创建Bean对象，此时如果类中没有默认构造函数，则对象无法创建。
+ 在Spring的配置文件中使用`Bean`标签，配以`id`和`class`属性之后，且没有其他属性和标签时。 采用的就是默认构造函数创建Bean对象，默认是单例的`scope=singleton`。
 
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200425190928.png)
 
@@ -158,6 +158,34 @@ Bean标签的`scope`属性：
 - request：作用于web应用的请求范围
 - session：作用于web应用的会话范围
 - global-session：作用于集群环境的会话范围（全局会话范围），当不是集群环境时，它就是session
+
+--------------------
+
+**Bean标签范围配置**
+
+1）当 scope的取值为 singleton时
+
+Bean的实例化个数：1个
+
+Bean的实例化时机：当 Spring核心文件被加载时，实例化配置的Bean实例
+
+Bean的生命周期：
+
+- 对象创建：当应用加载，创建容器时，对象就被创建了
+
+- 对象运行：只要容器在，对象一直活着
+
+- 对象销毁：当应用卸载，销毁容器时，对象就被销毁了
+
+2）当 scope的取值为 prototype时
+
+Bean的实例化个数：多个
+
+Bean的实例化时机：当调用 getBean()方法时实例化Bean
+
+- 对象创建：当使用对象时，创建新的对象实例
+- 对象运行：只要对象在使用中，就一直活着
+- 对象销毁：当对象长时间不用时，被Java的垃圾回收器回收了
 
 > **global-session**：集群环境是由多个服务器构成，某一个服务器上的session不能够被其他服务器识别。global-session相当于全局变量，在session销毁之前全局有效
 

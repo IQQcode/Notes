@@ -1,5 +1,6 @@
 > 原文转载自网络：[面试季，Java中的static关键字解析](http://www.cnblogs.com/dolphin0520/p/3799052.html)
 
+
 ### 1. static 关键字的用途
 
 在《Java 编程思想》P86 页有这样一段话：
