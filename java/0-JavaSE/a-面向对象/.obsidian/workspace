@@ -8,11 +8,8 @@
         "type": "leaf",
         "active": true,
         "state": {
-          "type": "markdown",
-          "state": {
-            "file": "0-Java值传递还是引用传递.md",
-            "mode": "preview"
-          }
+          "type": "empty",
+          "state": {}
         }
       }
     ],
@@ -54,8 +51,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "169dfa6d78522c41",
@@ -85,12 +81,12 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "lastOpenFiles": [
-    "0-Java值传递还是引用传递.md",
     "2-static.md",
-    "1-内部类.md"
+    "Untitled.md",
+    "1-内部类.md",
+    "0-Java值传递还是引用传递.md"
   ]
 }
