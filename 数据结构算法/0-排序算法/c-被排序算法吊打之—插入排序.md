@@ -6,11 +6,7 @@
 
 插入排序的方式非常像我们整理扑克牌一样。我们每次拿起一张牌并将它插入牌中正确的位置。为了找到一张牌的正确位置，我们从右到左将它与已在手中的每张牌进行比较，如下图所示：
 
-
-
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200417083339.jpg)
-
-
 
 ### 2. 选择排序详解
 
@@ -19,9 +15,7 @@
 1. 把所有的元素分为两组，已经排序的和未排序的；
 2. 找到未排序的组中的第一个元素，向已经排序的组中进行插入；
 3. 倒叙遍历已经排序的元素，依次和待插入的元素进行比较，直到找到一个元素小于等于待插入元素，那么就把待
-	插入元素放到这个位置，其他的元素向后移动一位；
-
-
+    插入元素放到这个位置，其他的元素向后移动一位；
 
 **【排序动画演示】**
 
@@ -29,13 +23,11 @@
 
 ---------------------------
 
-
-
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200417091755.png)
 
 **我们拿第四趟和第五趟排序详细理解一下：**
 
-**【第四趟排序】**首先待插入的数字为6，前面的`4,6,7,8`已经有序。我们将数字`6`放入到子序列`4,6,7,8`中合适的位置。从右向左倒序遍历`4,6,7,8`(因为是递增排序)，元素`6`先和子序列中的`8`比较，发现自己比`8`小，`6`和`8`交换位置。
+**【第四趟排序】** 首先待插入的数字为6，前面的`4,6,7,8`已经有序。我们将数字`6`放入到子序列`4,6,7,8`中合适的位置。从右向左倒序遍历`4,6,7,8`(因为是递增排序)，元素`6`先和子序列中的`8`比较，发现自己比`8`小，`6`和`8`交换位置。
 
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200417093744.png)
 
@@ -58,17 +50,18 @@
 **外层循环控制有序元素，内层循环实现待插入元素比较交换**
 
 ```java
-public static void insertSort(int[] arr) {
-        //默认第一个元素有序
+public void insertSort(int[] arr) {
+        // 默认第一个元素有序
         for (int i = 1; i < arr.length; i++) {
-            //待排序元素插入到已排序元素中
+            // 待排序元素插入到已排序元素中
             for (int j = i; j > 0; j--) {
-                //已排序元素与待排序的比较
+                // 将待排序元素arr[j]倒序依次与有序序列中元素比较，放入有序序列中合适位置
                 if(arr[j] < arr[j-1]) {
                     int temp = arr[j];
                     arr[j] = arr[j-1];
                     arr[j-1] = temp;
-                }else {
+                } else {
+                    // 有序则不做处理(等同于break)，此处不加else也可以
                     break;
                 }
             }
@@ -88,34 +81,35 @@ public static void insertSort(int[] arr) {
 
 二分查找的前提就是有序的子序列查找，折半插入排序在数据集无序的情况下要优于直接插入排序，但是在近乎有序的数据集下，由于插入排序只比较一次，因此最好情况下的直接插入排序要优于折半插入排序。
 
-**折半插入与直接插入区别：**时间、空间、稳定性均与直接插入排序相同，只是元素比较次数不同而已。
+**折半插入与直接插入区别：** 这里的查找操作的时间复杂度为`O(n)`量级。但是如果使用二分查找在数组 `arr` 的 `[0,i - 1]` 的范围内查找关键字 `key` ，那么就可以将查找操作的时间复杂度降到`O(logn)`量级.
 
 ```java
-public static void halfInsert(int[] arr) {
-        int low , mid, high, j = 0;
-        for (int i = 1;i < arr.length; i++) {
-            //未排序集合的第 一个元素
-            int temp = arr[i];
-            //已排序集合的第一个元素
-            low = 0;
-            //已排序集合的最后一个元素
-            high = i - 1;
-            while (low <= high) {
-                //已排序集合中间元素
-                mid = low + (high - low) / 2;
-                if (temp > arr[mid]) {
-                    low = mid + 1;
-                }else {
-                    high = mid - 1;
-                }
+public int[] insert(int[] arr) {
+    for (int i = 1; i < arr.length; i++) {
+        int index = binary_search(arr, arr[i]);
+        for (int j = i; j > index; j--) {
+            if (arr[j] < arr[j - 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j - 1];
+                arr[j - 1] = temp;
             }
-            //要插入的位置在high+1，交换元素
-            for (j = i - 1; j > high; j--) {
-                arr[j+1] = arr[j];
-            }
-            arr[j+1] = temp;
         }
     }
+    return arr;
+}
+
+public int binary_search(int[] arr, int target) {
+    int left = 0, right = arr.length - 1;
+    while(left < right) {
+        int mid = (left + right) >>> 1;
+        if(target > arr[mid]) {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+    return left;
+}
 ```
 
 > **<font color=pink>测试</font>**
@@ -141,4 +135,3 @@ public static void halfInsert(int[] arr) {
 根据大O推导法则，插入排序的时间复杂度为**O(N^2)**
 
 **【空间复杂度】** **O(1)**
-

@@ -58,6 +58,8 @@
    
    > 如果当前节点都小于子节点，则和左孩子节点或者右孩子节点中较大的孩子交换。使交换后的父亲节点都大于左右孩子节点
 
+![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200724104052.png)
+
 --------------------
 
 ### 3. 堆排序详解
@@ -226,8 +228,6 @@ public class HeapSort {
 
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200428213440.png)
 
-
-
 1. 先构建堆`buildHeap`
 
 2. 然后进行排序
@@ -237,5 +237,3 @@ public class HeapSort {
 - **时间复杂度：O(nlogn)**
 
 - **空间复杂度：O(1)** 
-
-
