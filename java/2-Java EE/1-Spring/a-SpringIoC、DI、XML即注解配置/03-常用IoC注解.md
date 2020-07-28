@@ -1,4 +1,4 @@
-## 常用IoC注解
+## 一、常用IoC注解
 
 在使用注解配置Spring时，<kbd>applicationContext.xml</kbd>配置如下：
 
@@ -20,6 +20,8 @@
 
 </beans>
 ```
+
+![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/imgs01/20200728154941.png)
 
 ### 1. 用于创建对象的
 
@@ -57,7 +59,7 @@
 
 他们的作用就和在XML配置文件中的bean标签中写一个<kbd><property></kbd>标签的作用是一样的
 
-**1. @Autowired**
+#### 1. @Autowired
 
 【出现位置】：可以是变量上，也可以是方法上
 
@@ -73,15 +75,15 @@
   
   ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200430084514.png)
 
-> 细节：在使用注解注入时，Setter方法就不是必须的了
+> 细节：在使用注解注入时，Setter方法就不是必须的了，可以不写
 
-     
+#### 2. @Qualifier
 
-**2. @Qualifier**
+【作用】：在按照类中注入的基础之上再按照`id`名称注入。
 
-【作用】：在按照类中注入的基础之上再按照名称注入。它在给类成员注入时不能单独使用，但是在给方法参数注入时可以直接使用。
+它在给类成员注入时不能单独使用，但是在给方法参数注入时可以直接使用。
 
-【使用】：它在给类成员注入时不能单独使用，必须与`@Autowired`配合使用。`@Autowired`确定类的匹配范围，`@Qualifier`根据变量名精确匹配
+【使用】：它在给类成员注入时不能单独使用，必须与`@Autowired`配合使用。`@Autowired`确定类的匹配范围，`@Qualifier`根据变量名`id`精确匹配
 
 【属性】
 
@@ -103,13 +105,13 @@
 
 
 
-**3. @Resource**
+#### 3. @Resource
 
 【作用】：区别于直接按照bean的id注入，它可以独立使用
 
 【 属性】
 
-- name：用于指定bean的id
+- `name`：用于指定bean的`id`
 
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200501123322.png)
 
@@ -117,13 +119,52 @@
 
 另外，集合类型的注入只能通过XML来实现。
 
-**4. @Value**
+---------------------------
+
+【@Resource-@Autowired-@Qualifier三个注解小结】
+
+- `@Autowired` ：按照数据类型从Spring容器中进行匹配(如果有多个相同类型则不能匹配，结合@Qualifier)
+
+- `@Qualifier("userDao")` ：按照id值从容器中进行匹配，必须结合Autowired一起使用
+
+- `@Resource(name = "userDao")`：相当于@Autowired + @Qualifier
+
+<kbd>示例</kbd>
+
+```java
+@Service("userService")
+public class UserServiceImpl implements UserService {
+    //<property name="userDao" ref="userDao"/>
+    //@Autowired  //按照数据类型从Spring容器中进行匹配(如果有多个相同类型则不能匹配，结合@Qualifier)
+    //@Qualifier("userDao")  //按照id值从容器中进行匹配，必须结合Autowired一起使用
+    
+    @Resource(name = "userDao")  //相当于@Autowired + @Qualifier
+    private UserDao userDao;
+
+    public UserServiceImpl() { }
+
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    @Override
+    public void login() {
+        userDao.login();
+    }
+}
+```
+
+
+
+-----------------
+
+#### 4. @Value
 
 【作用】：用于注入基本类型和String类型的数据
 
 【属性】：
 
-- value：用于指定数据的值。它可以使用spring中SpEL(也就是spring的el表达式）
+- `value`：用于指定数据的值。它可以使用spring中SpEL(也就是spring的el表达式）
 
 - SpEL的写法：`${表达式}`
 
@@ -131,15 +172,16 @@
 
 他们的作用就和在bean标签中使用`scope`属性实现的功能是一样的
 
-**@Scope**
+#### @Scope
 
 【作用】：用于指定bean的作用范围
 
 【属性】
 
-- value：指定范围的取值，默认是单例的
+- `value`：指定范围的取值，默认是单例的
   
    - 常用取值：singleton(单例)，prototype(多例)
+    
   
   ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200501123701.png)
 
@@ -147,17 +189,19 @@
 
 他们的作用就和在bean标签中使用`init-method`和`destroy-methode`的作用是一样的
 
-**@PreDestroy**
+#### @PreDestroy
 
-         作用：用于指定销毁方法
+- 作用：用于指定销毁方法
 
-**@PostConstruct**
+#### @PostConstruct
 
-         作用：用于指定初始化方法
+- 作用：用于指定初始化方法
 
-## Spring与配置相关的注解
+## 二、配置相关的新注解
 
 > 通过注解配置类来取代`applicationContext.xml`配置文件
+
+![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/imgs01/20200728170533.png)
 
 --------------------------------------
 
@@ -187,9 +231,9 @@
 
 **`@Bean`**
 
-【作用】：用于把当前方法的返回值作为bean对象存入SpringIoC容器中
+【作用】：用于把当前方法的返回值作为bean对象存入Spring IoC容器中
 
-- name：用于指定bean的id。当不写时，默认值是当前方法的名称
+- name：用于指定bean的`id`。当不写时，默认值是当前方法的名称
 
 当我们使用注解配置方法时，如果方法有参数， Spring框架会去容器中查找有没有可用的bean对象，查找的方式和Autowired注解的作用是一样的
 
@@ -252,7 +296,7 @@ jdbc.username=root
 jdbc.password=1234
 ```
 
-该类是一个配置类，它的作用和ApplicationContext.xml是一样的
+该类是一个配置类，它的作用和`ApplicationContext.xml`是一样的
 
 
 

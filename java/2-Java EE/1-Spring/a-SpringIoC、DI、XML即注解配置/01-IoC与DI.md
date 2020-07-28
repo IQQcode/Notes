@@ -357,6 +357,22 @@ ApplicationContext的三个常用实现类：
 
 > JavaBean，Spring Bean对象的理解
 
+### getBean的用法
+
+```java
+ApplicationContext apps = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+// 1.根据id获取Bean
+UserService userService = (UserService) apps.getBean("userService");
+
+// 2.根据类型获取Bean(多个相同类型的无法使用，只能用id)
+UserService userService = apps.getBean(UserService.class);
+
+userService.save();
+```
+
+
+
 ### 4. 依赖注入DI
 
 依赖注入（Dependency Injection，简称 DI）是实现控制反转的主要方式。它是Spring框架核心IoC的具体实现。 
@@ -411,8 +427,18 @@ ApplicationContext的三个常用实现类：
 以上三个用于指定给构造函数中哪个参数赋值
 
 - value：用于提供基本类型和String类型的数据
-
 - ref：用于指定其他的Bean类型数据。它指的就是在Spring的IoC核心容器中出现过的Bean对象(如Date类对象)
+
+```xml
+	<!--构造方法注入-->
+    <bean id="userService" class="com.iqqcode.service.impl.UserServiceImpl">
+        <constructor-arg name="userDao" ref="userDao"/>
+    </bean>
+```
+
+- `name="userDao"` ：参数内部对应的名称
+
+- `ref="userDao"`：引用容器中`bean`对象的**id**
 
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200425202654.png)
 
@@ -441,11 +467,11 @@ Setter方法注入（更常用的方式）
 
 标签的属性
 
-- name：用于指定注入时所调用的set方法名称
+- `name`：用于指定注入时所调用的set方法名称
 
-- value：用于提供基本类型和String类型的数据
+- `value`：用于提供**基本类型和String类型**的数据
 
-- ref：用于指定其他的bean类型数据。它指的就是在Spring的IoC核心容器中出现过的bean对象        
+- `ref`：用于指定其他的bean的**引用类型**数据。它指的就是在Spring的IoC核心容器中出现过的bean对象        
 
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200425202750.png)
 
@@ -459,6 +485,54 @@ Setter方法注入（更常用的方式）
 
 - 如果有某个成员必须有值，则获取对象时set()方法有可能没有执行
 
+![](Spring-Day01-IoC%E4%B8%8EDI.assets/20200728105849.png)
+
+【注入对象】
+
+```xml
+<!--无参构造实例化Bean对象-->
+<bean id="userDao" class="com.iqqcode.dao.impl.UserDaoImpl"/>
+<bean id="userService" class="com.iqqcode.service.impl.UserServiceImpl">
+    <!--Setter注入，将userDao注入到userService中-->
+    <property name="userDao" ref="userDao"/>
+</bean>
+```
+
+【注入普通属性】
+
+```xml
+<!--注入普通属性，为对象赋值-->
+<bean id="userDao" class="com.iqqcode.dao.impl.UserDaoImpl">
+    <property name="name" value="iqqcode"/>
+    <property name="age" value="21"/>
+</bean>
+
+<!--构造方法注入对象引用-->
+<bean id="userService" class="com.iqqcode.service.impl.UserServiceImpl">
+    <constructor-arg name="userDao" ref="userDao"/>
+</bean>
+```
+
+
+
+![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/imgs01/20200728110159.png)
+
+```xml
+<bean id="userService" class="com.iqqcode.service.impl.UserServiceImpl">
+    <!--Setter注入，将userDao注入到userService中-->
+    <property name="userDao" ref="userDao"/>
+</bean>
+```
+
+等价于
+
+```xml
+<!--p命名空间-->
+<bean id="userService" class="com.iqqcode.service.impl.UserServiceImpl" p:userDao-ref="userDao"/>
+```
+
+
+
 -----------------------------------
 
 #### 使用注解注入
@@ -469,11 +543,108 @@ Setter方法注入（更常用的方式）
 
 #### Setter()集合数据注入
 
-对于`List`、`Set`、`Map`、`Props`集合类型的数据来说，我们使用Sette()来注入
+对于`List`、`Set`、`Map`、`Props`集合类型的数据来说，我们使用**Sette**来注入
 
-![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200425203116.png)
+1. domain下的实体类
 
+	```java
+	@Data
+	public class User {
+	    private String username;
+	    private String password;
+	}
+	```
 
+2. UserDaoImpl下的集合类
+
+	```java
+	@Data
+	public class UserDaoImpl implements UserDao {
+	
+	    //注入基本类型
+	    private String name;
+	    private int age;
+	
+	    //注入集合
+	    private int[] arr;
+	    private List<Integer> list;
+	    private Map<String, User> map;
+	    private Properties prop;
+	
+	
+	    @Override
+	    public void save() {
+	        System.out.println("user save!");
+	
+	        System.out.println("name: " + name + "\tage: " + age);
+	
+	        System.out.println(list);
+	        System.out.println(map);
+	        System.out.println(prop);
+	    }
+	}
+	```
+	
+3. applicationContext.xml配置
+
+	```xml
+	<?xml version="1.0" encoding="UTF-8"?>
+	<beans xmlns="http://www.springframework.org/schema/beans"
+	       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	       xmlns:p="http://www.springframework.org/schema/p"
+	       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	    <!--无参构造实例化Bean对象-->
+	    <bean id="userDao" class="com.iqqcode.dao.impl.UserDaoImpl">
+	        <!--注入基本类型-->
+	        <property name="name" value="iqqcode"/>
+	        <property name="age" value="21"/>
+	
+	        <!--注入集合-->
+	        <property name="arr">
+	            <array>
+	                <value>111</value>
+	                <value>222</value>
+	            </array>
+	        </property>
+	        <property name="list">
+	            <list>
+	                <value>01010101</value>
+	                <value>10101010</value>
+	            </list>
+	        </property>
+	        <property name="map">
+	            <map>
+	                <entry key="u1" value-ref="user1"/>
+	                <entry key="u2" value-ref="user2"/>
+	            </map>
+	        </property>
+	        <property name="prop">
+	            <props>
+	                <prop key="config">iqqcode</prop>
+	                <prop key="settings">Mr.Q</prop>
+	            </props>
+	        </property>
+	    </bean>
+	
+	    <bean id="user1" class="com.iqqcode.domain.User">
+	        <property name="username" value="Tom"/>
+	        <property name="password" value="2020"/>
+	    </bean>
+	    <bean id="user2" class="com.iqqcode.domain.User">
+	        <property name="username" value="Jack"/>
+	        <property name="password" value="2021"/>
+	    </bean>
+	
+	    <!--构造方法注入UserDao-->
+	    <bean id="userService" class="com.iqqcode.service.impl.UserServiceImpl">
+	        <constructor-arg name="userDao" ref="userDao"/>
+	    </bean> 
+	
+	</beans>
+	```
+
+------------------------
 
 **结构相同，标签可以互换**：
 
@@ -485,6 +656,11 @@ Setter方法注入（更常用的方式）
 
 - `map`、` props `
 
+ ![](Spring-Day01-IoC%E4%B8%8EDI.assets/20200728120239.png)
 
+【小结】
+
+![](Spring-Day01-IoC%E4%B8%8EDI.assets/20200728120709.png)
 
 好啦，Spring的解耦思想，IoC，Bean，DI就介绍到此啦。下一篇讲注解
+

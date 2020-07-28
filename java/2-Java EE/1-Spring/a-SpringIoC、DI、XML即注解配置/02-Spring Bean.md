@@ -148,6 +148,38 @@ Xxx = new xx.XxClass()
 
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200425191216.png)
 
+**【e.g】**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--无参构造实例化Bean对象-->
+    <bean id="userDao" class="com.iqqcode.dao.impl.UserDaoImpl"/>
+
+    <bean id="userService" class="com.iqqcode.service.impl.UserServiceImpl"/>
+
+
+
+    <!--工厂静态方法创建Bean对象-->
+    <bean id="static_factory" class="com.iqqcode.factory.StaticFactory" factory-method="getStaticFactory"/>
+
+
+
+    <!--工厂实例方法创建Bean对象-->
+    <!--1.先创建工厂对象-->
+    <bean id="factory" class="com.iqqcode.factory.InstanceFactory"/>
+    <!--2.从工厂中获取创建的对象-->
+    <bean id="instance_factory" factory-bean="factory" factory-method="getInstanceFactory"/>
+
+</beans>
+```
+
+
+
 ### 2. Bean对象的作用范围
 
 Bean标签的`scope`属性：
