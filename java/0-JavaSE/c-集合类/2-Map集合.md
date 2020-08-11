@@ -3,12 +3,10 @@
 **Map集合的特点：**
 
 1. Map集合是一个双列集合，一个元素包含两个值（`key`和`value`）
-
 2. `key`和`value`的数据类型，可以相同，也可以不同
-
 3. `key`是不允许重复的（唯一性），`value`可以重复
-
 4. `key`和`value`一一对应，一个key只能对应一个value
+5. 一个`key-value`构成一个Entry对象，Entry无序不可重复，Set存储所有Entry
 
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200525154022.png)
 
@@ -177,7 +175,7 @@ HashMap的位桶数组，初始大小为16。实际使用时，显然大小是�
 - 16为初始容量
 - 0.75为加载因子
 
-HashMap 总是使用2的幂作为哈希表的大小，`tableSize`方法保证了 HashMap 总是使用2的幂作为哈希表的大小：
+HashMap 总是使用**2的幂**作为哈希表的大小，`tableSizeFor`方法保证了 HashMap 总是使用2的幂作为哈希表的大小：
 
 ```java
     /**
@@ -199,11 +197,15 @@ HashMap 总是使用2的幂作为哈希表的大小，`tableSize`方法保证了
 
 --------------------------------------------
 
-### LinkedHashMap
+## 3. LinkedHashMap
 
-继承自HashMap，底层采用数组 + 链表/红黑树 + 链表实现，一个链表记录元素的顺序。所以同LinkedHashSet类似，LinkedHashMap的迭代顺序是有序的。
+**此类适用于频繁的遍历数据**
 
-## 3. TreeMap
+- 继承自HashMap，底层采用数组 + 链表/红黑树 + 双链表实现，顺序链表记录元素的顺序。
+
+- 所以同LinkedHashSet类似，LinkedHashMap的迭代顺序是有序的。
+
+## 4. TreeMap
 
 TreeMap底层是红黑树，能够实现该Map集合有序。
 
@@ -225,14 +227,27 @@ TreeMap和HashMap实现了同样的接口Map，因此，用法对于调用者来
 
 #### TreeMap元素的排序
 
-TreeMap有序是通过Comparator来进行比较的
+TreeMap有序是通过Comparator来对`key`进行比较的
 
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200531143132.png)
 
-> key: 202001   value: 张三
-> key: 202007   value: 王五
-> key: 202020   value: 李四
-> key: 202133   value: 赵六
+```java
+key: 202001   value: 张三
+key: 202007   value: 王五
+key: 202020   value: 李四
+key: 202133   value: 赵六
+```
+
+### Comparable和Comparator接口的区别：
+
+- Comparable相当于“内部比较器”，而Comparator相当于“外部比较器”；
+
+- Comparable接口位于 java.lang包下，Comparator接口位于java.util包下；
+
+- Comparable：内部比较器，一个类如果想要使用`Collections.sort(list) `方法进行排序，则需要实现该接口
+- Comparator：外部比较器，用于对那些没有实现Comparable接口或者对已经实现的Comparable中的排序规则不满意，需要再次进行排序，无需改变类的结构，更加灵活
+
+--------------------
 
 在自定义类对象进行比较时，要重新覆写`compareTo`方法
 
@@ -275,6 +290,7 @@ class Person implements Comparable<Person>{
         }
     }
 }
+
 public class ObjCompare {
     public static void main(String[] args) {
         Map<Person,String> treemap = new TreeMap<>();
@@ -289,11 +305,15 @@ public class ObjCompare {
 }
 ```
 
-> key: Person{id=1001, name='张三', age=18}   value: 2020-01
-> key: Person{id=1003, name='王五', age=18}   value: 2020-03
-> key: Person{id=1002, name='李四', age=20}   value: 2020-02
+```java
+key: Person{id=1001, name='张三', age=18}   value: 2020-01
+key: Person{id=1003, name='王五', age=18}   value: 2020-03
+key: Person{id=1002, name='李四', age=20}   value: 2020-02
+```
 
-## 4. Hashtable
+
+
+## 5. Hashtable
 
 `java.util.Hashtable<K,V>`集合实现了接口
 
@@ -309,11 +329,11 @@ public class ObjCompare {
 
 - 默认初始大小和扩容方式不同。HashMap默认初始大小16，容量必须是2的整数次幂，扩容时将容量变为原来的2倍；Hashtable默认初始大小11，扩容时将容量变为原来的2倍加1。
 
-> Hashtable和 Vector集合一样，在jdk1.2版本之后被更先进的集合（ HashMap， ArrayList）取代了。Hashtable的子类 Properties使用频繁，Properties集合是一个唯一和IO流相结合的集合 
+> Hashtable和 Vector集合一样，在jdk1.2版本之后被更先进的集合（ HashMap， ArrayList）取代了。Hashtable的子类 Properties使用频繁，Properties集合是一个唯一和 IO流 相结合的集合 
 
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200525112147.png)
 
-## 5. Map集合的遍历
+## 6. Map集合的遍历
 
 **【方式一】通过map.keySet()获取key，通过key找到value**
 
@@ -363,7 +383,7 @@ public class ObjCompare {
 
 
 
-## 6. 表格数据存储
+## 7. 表格数据存储
 
 > 使用容器来存储表格数据
 
@@ -460,6 +480,21 @@ public static void main(String[] args) {
 }
 ```
 
-> Student{id=1001,  name='张三',  age=18,  graduation=2020-09}
-> Student{id=1002,  name='李四',  age=20,  graduation=2021-07}
-> Student{id=1003,  name='王五',  age=22,  graduation=2017-07}
+```java
+Student{id=1001,  name='张三',  age=18,  graduation=2020-09}
+
+Student{id=1002,  name='李四',  age=20,  graduation=2021-07}
+
+Student{id=1003,  name='王五',  age=22,  graduation=2017-07}
+```
+
+## 8. 是否可以存储null
+
+|   结构    | null |
+| :-------: | :--: |
+|  HashSet  |  ✔   |
+|  TreeSet  |  ❌   |
+|  HashMap  |  ✔   |
+|  TreeMap  |  ❌   |
+| Hashtable |  ❌   |
+

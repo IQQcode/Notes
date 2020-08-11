@@ -8,7 +8,7 @@
 
 **Collection是单个集合保存的最大父接口**
 
-<img title="" src="https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200524205446.png" alt="" data-align="inline">
+![](0-List集合.assets/20200810184816.png)
 
 Collection共性方法抽取：
 
@@ -52,8 +52,6 @@ public static void main(String[] args) {
 增强的`for-each`循环专门用来遍历集合（只能进行遍历，不能增删），其实就是迭代器的简化写法
 
 ## 4. ArrayList
-
-
 
 ## 5. LinkedList
 
