@@ -154,10 +154,18 @@ get(1); //test
 
 ## 4. 扩容问题
 
-HashMap的位桶数组，初始大小为16。实际使用时，显然大小是可变的。如果位桶数组中的元素达到`0.75 * 数组length`，就重新调整数组大小变为原来的2倍大小。
+**扩容的目的：** 在达到阈值时，扩容是为了缩短链表/红黑树，散开hash，提高查询效率
+
+HashMap的位桶数组，初始大小为16，若指定容量则寻找最接近的大于等源指定值的**2的幂次方数**。实际使用时，显然大小是可变的。如果位桶数组中的元素达到**阈值**`0.75 * arr.length`，就重新调整数组大小变为原来的`2`倍大小
 
 - 16为初始容量
 - 0.75为加载因子
+
+### 初始容量的确定
+
+- **不指定默认为16**
+
+- **指定容量18，寻找32**
 
 HashMap 总是使用**2^n^**作为哈希表的大小，`tableSizeFor`方法保证了 HashMap 总是使用2的幂作为哈希表的大小，保证初始化容量`CAPACITY` **大于等于**其2^n^
 
@@ -214,17 +222,39 @@ i - (i >> 1)
 
 扩容很耗时，扩容的本质是定义新的更大的数组，并将原数组内容拷贝到新数组中
 
-### 为什么是2的幂次方
+#### 为什么是2的幂次方
 
 1、HashMap为什么不直接使用hashCode()处理后的哈希值直接作为table的下标？
 
 HashMap自己实现了自己的hash()方法，通过两次扰动使得它自己的哈希值高低位自行进行异或运算，降低哈希碰撞概率也使得数据分布更平均；
 
-在保证数组长度为2的幂次方的时候，使用hash()运算之后的值与运算（&）（数组长度 - 1）来获取数组下标的方式进行存储，这样一来是比取余操作更加有效率，二来也是因为只有当数组长度为2的幂次方时，h&(length-1)才等价于h%length，三来解决了“哈希值与数组大小范围不匹配”的问题；
-
 2、为什么数组长度要保证为2的幂次方呢？
 
 只有当数组长度为2的幂次方时，h&(length-1)才等价于h%length，即实现了key的定位，2的幂次方也可以减少冲突次数，提高HashMap的查询效率；
+
+### 位桶数组2倍扩容
+
+如果位桶数组中的元素达到**阈值**`0.75 * arr.length`，就重新调整数组大小变为原来的`2`倍大小
+
+- 16为初始容量
+- 0.75为加载因子
+- 创建新数组，2倍扩容，浅拷贝原数组
+
+![](3-HashMap.assets/20200812101302.png)
+
+<font color = red>【注意】</font>扩容并不是直接将数组对应`hash`下的链表直接复制，而是逐个移动，*重新计算Hash值*，**扩容达到缩短链表，散开hash，提高查询效率**的效果
+
+
+
+### JDK7多线程扩容下出现的问题
+
+在位桶数组扩容后，数组对应`hash`下的链表`next`指针可能会出现环，循环链表造成死循环
+
+【原因】：
+
+- JDK7扩容采用头插法，导致数据-移动到扩容后的数组顺序发生变化
+
+	​	
 
 ## 5. 插入元素
 
@@ -246,3 +276,102 @@ HashMap自己实现了自己的hash()方法，通过两次扰动使得它自己�
 - 数组 + 链表 / 红黑树
 
 - 尾插法
+
+
+
+## 6. 并发问题
+
+### 问题复现
+
+- 一边遍历`map`，一边修改`map`，出现`ConcurrentModificationException`
+
+```java
+public static void main(String[] args) {
+    Map<String, String> map = new HashMap<>();
+    map.put("1", "1");
+    map.put("2", "2");
+    map.put("3", "3");
+    
+    //remove"2"或“3”都会出现 ConcurrentModificationException
+    for (String s : map.keySet()) {
+        if(s.equals("2")) {
+            map.remove(s);
+        }
+    }
+}
+```
+
+> 此问题在JDK7、JDK8都会出现
+
+### 原因分析
+
+**读写同步，导致出现并发修改的异常**
+
+- `modCount`计数器记录修改次数
+
+**1. 先put添加元素**
+
+![image-20200812113917473](3-HashMap.assets/image-20200812113917473.png)
+
+- 每当调用一次`put`或者`remove`等做修改时，`modCount++`，此时`modCount == 2`
+
+- 遍历`map`时会返回`KeySet`的迭代器，构造方法初始化`expectedModCount = modCount`等于2
+
+**2. 遍历，判断remove**
+
+- 调用`map`的`remove()`，`modCount++`，`modCount=3`
+
+- 此时`expectedModCount`没做更新，依然为2，二者不相等
+- 因为`expectedModCount`只在初始化迭代器时，构造方法做了赋值
+
+```java
+if (modCount != expectedModCount)
+    theow new ConcurrentModificationException();
+```
+
+<mark>故抛出异常</mark>
+
+### 解决方法
+
+#### 1. 使用ConcurrentHashMap
+
+ConcurrentHashMap保证了安全性
+
+```java
+Map<String, String> map = new ConcurrentHashMap<>();
+```
+
+#### 2. fail-fast机制
+
+**Hashtable迭代器提供了fail-fast机制**
+
+**快速失败（fail—fast）**是java集合中的一种机制， 在用迭代器遍历一个集合对象时，如果遍历过程中对集合对象的内容进行了修改（增加、删除、修改），则会抛出Concurrent Modification Exception。
+
+**Tip**：**安全失败（fail—safe）**大家也可以了解下，java.util.concurrent包下的容器都是安全失败，可以在多线程下并发使用，并发修改。
+
+迭代器的`remove`同步了`expectedModCount` 和`modCount`
+
+![](3-HashMap.assets/20200812113658.png)
+
+
+
+```java
+public static void main(String[] args) {
+    Map<String, String> map = new HashMap<>();
+    //Map<String, String> map = new ConcurrentHashMap<>();
+    map.put("1", "1");
+    map.put("2", "2");
+    map.put("3", "3");
+
+    Iterator var2 = map.keySet().iterator();
+    while(var2.hasNext()) {
+        String s = (String)var2.next();
+        if (s.equals("2")) {
+            //调用iterator的remove()
+            //map.remove(s);
+            var2.remove(); //保证了modCount和exceptedModCount相等
+        }
+    }
+}
+```
+

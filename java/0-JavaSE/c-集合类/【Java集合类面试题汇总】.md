@@ -131,12 +131,14 @@ TreeSet基于TreeMap实现，TreeMap基于红黑树实现。TreeSet内部维持�
 
 ## Map问题汇总
 
+![](【Java集合类面试题汇总】.assets/20200812185015.png)
+
 ### 1. HashMap 和 Hashtable的区别
 
 1. **线程安全：** HashMap是线程不安全的，Hashtable是线程安全的。Hashtable的方法都是同步的`synchronized`修饰（不建议使用，用ConcurrentHashMap替代）
 2. **效率：** 因为线程安全的问题，HashMap 要比 HashTable 效率高。Hashtable基本被淘汰（ConcurrentHashMap替代），不要在代码中使用它；
 3. **null-key，null-value：** HashMap允许存放null-`key`，null-`value`（null-`key`只允许存放一次）；Hashtable中put进的键值只要有一个 null，直接抛出 NullPointerException
-4. **初始容量和扩容 ：** ①Hashtable 默认的初始大小为11，之后每次扩充，容量变为原来的2n+1；HashMap 默认的初始化大小为16。之后每次扩充，容量变为原来的2倍（HashMap 总是使用2的幂作为哈希表的大小）
+4. **初始容量和扩容 ：** ①Hashtable 默认的初始大小为11，之后每次扩充，容量变为原来的2n+1； ①HashMap 默认的初始化大小为16。之后每次扩充，容量变为原来的2倍（HashMap 总是使用2的幂作为哈希表的大小）
 5. **底层数据结构：** JDK1.8 以后的 HashMap 在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8）时，将链表转化为红黑树，以减少搜索时间。Hashtable 没有这样的机制。
 
 ### 2. HashMap 和 HashSet区别
