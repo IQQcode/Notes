@@ -146,7 +146,7 @@ public class MergeSort {
      * @param temp 做中转的辅助数组
      */
     public static void merge(int[] arr, int low, int high, int mid, int[] temp) {
-        //左边有序序列的初始索引
+        //左边有序序列的初始索引 
         int p1 = low;
         //右边有序序列的初始索引(为中间位置的后一个位置)
         int p2 = mid + 1;
@@ -180,6 +180,37 @@ public class MergeSort {
     }
 }
 ```
+
+【代码精简】
+
+```java
+public class MergeSort {
+    public static void mergeSort(int[] arr, int low, int high) {
+        if (low >= high) return;
+        int[] temp = new int[arr.length];
+        int pivot = (low + high) >>> 1;
+        mergeSort(arr, low, pivot);
+        mergeSort(arr, pivot + 1, high);
+        merge(arr, low, pivot, high, temp);
+    }
+
+    private static void merge(int[] arr, int low, int pivot, int high, int[] temp) {
+        int p1 = low, p2 = pivot + 1;
+        int index = low;
+        while (p1 <= pivot && p2 <= high) {
+            temp[index++] = arr[p1] < arr[p2] ? arr[p1++] : arr[p2++];
+        }
+        while (p1 <= pivot) temp[index++] = arr[p1++];
+        while (p2 <= high)  temp[index++] = arr[p2++];
+
+        for (int i = low; i <= high; i++) {
+            arr[i] = temp[i];
+        }
+    }
+}
+```
+
+
 
 ### 4. 复杂度分析
 

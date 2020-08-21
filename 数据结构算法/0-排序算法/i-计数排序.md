@@ -64,17 +64,20 @@ public static int[] sort_stable(int[] arr) {
             min = arr[i];
         }
     }
+    
     // 2.创建统计数组并统计对应元素个数
     int[] count = new int[max - min + 1];
     for (int i = 0; i < arr.length; i++) {
         count[arr[i] - min]++;
     }
+    
     // 3.统计数组做变形，后面的元素等于前面的元素之和
     int sum = 0;
     for (int i = 0; i < count.length; i++) {
         sum += count[i];
         count[i] = sum;
     }
+    
     // 4.倒序遍历原始数列，从统计数组找到正确位置，输出到结果数组
     int[] result = new int[arr.length];
     for (int i = arr.length - 1; i > 0; i--) {

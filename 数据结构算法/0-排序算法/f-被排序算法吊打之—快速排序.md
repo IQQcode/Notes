@@ -1,4 +1,4 @@
-﻿![在这里插入图片描述](https://img-blog.csdnimg.cn/20200414110355222.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzIzMjk1NQ==,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200414110355222.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzIzMjk1NQ==,size_16,color_FFFFFF,t_70)
 
 ### 1. 快速排序思想
 
@@ -105,8 +105,7 @@ public void quickSort(int[] arr, int low, int high) {
     if (low < high) {
         // 左边界基准数,由于是递归调用，此处为arr[low]，不能是arr[0]
         int key = arr[low];
-        int i = low;
-        int j = high;
+        int i = low, j = high;
         while (i < j) {
             // j从右向左移动寻找，临界条件为 j == left，已经扫描到最左边了，无需继续扫描
             while (i < j && arr[j] > key) {
@@ -131,6 +130,11 @@ public void quickSort(int[] arr, int low, int high) {
         quickSort(arr, i + 1, high);
     }
 ```
+【代码说明】
+
+- 由于要交换元素，但是在数组中原地操作。所以`pivot`充当临时变量temp，在交换中会有一个值**被覆盖**
+- 被覆盖的值腾出空间来完成`arr[i]`和`arr[j]`交换元素
+- `arr[i] = key;`最终还原回被覆盖的值
 
 > <font color=#BA55D3 size=4>运行结果</font>
 
@@ -138,7 +142,7 @@ public void quickSort(int[] arr, int low, int high) {
 
 > QuickSort 排序结果为：[1, 2, 3, 4, 5, 5, 6, 7, 9, 10]
 
--------------------------       
+-------------------------
 
 <kbd>版本二</kbd> 基准数方法独立
 
@@ -162,10 +166,9 @@ public class QuickSort {
      */
     public static int partition(int[] arr, int low, int high) {
         int key = arr[low];
-        int i = low;
-        int j = high;
+        int i = low, j = high;
         while (i < j) {
-// 先从右向左找第一个小于key的数
+			// 先从右向左找第一个小于key的数
             while (i < j && arr[j] > key) {
                 j--;
             }
@@ -190,6 +193,8 @@ public class QuickSort {
     }
 }
 ```
+【代码参考】
+![image-20200821103203290](f-被排序算法吊打之—快速排序.assets/image-20200821103203290.png)
 
 > <font color=pink size=4>运行结果</font>
 
