@@ -128,7 +128,7 @@ public void quickSort(int[] arr, int low, int high) {
         quickSort(arr, low, i - 1);
         //让右子组有序
         quickSort(arr, i + 1, high);
-    }
+}
 ```
 【代码说明】
 

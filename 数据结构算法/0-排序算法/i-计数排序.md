@@ -32,10 +32,12 @@ public static int[] sort(int[] arr) {
             min = arr[i];
         }
     }
+    
     int[] count = new int[max - min + 1];
     for (int i = 0; i < arr.length; i++) {
         count[arr[i] - min]++;
     }
+    
     int[] result = new int[arr.length];
     for (int i = 0, j = 0; i < count.length; i++) {
         while (count[i]-- > 0) {
