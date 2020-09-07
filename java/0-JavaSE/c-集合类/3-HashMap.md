@@ -380,9 +380,11 @@ loadFactor = size / capacity
 - 0.75为加载因子
 - 创建新数组，2倍扩容，浅拷贝原数组
 
-HashMap在进行扩容时，**不需要重新计算hash值**。`rehash`方式非常巧妙，因为每次扩容都是翻倍，与原来计算的`(n-1)&hash`的结果相比，只是多了一个bit位，所以节点要么就在**原来**的位置，要么就被分配到**原位置+旧容量**这个位置
+HashMap在进行扩容时，**不需要重新计算hash值**。`rehash`方式非常巧妙，因为每次扩容都是翻倍，与原来计算的`(n-1)&hash`结果相比，只是多了一个bit位，所以节点要么就在**原来**的位置，要么就被分配到**原位置+旧容量**这个位置
 
 ![](3-HashMap.assets/20200812101302.png)
+
+<img src="3-HashMap.assets/image-20200829163933608.png" alt="image-20200829163933608" style="zoom:67%;" />
 
 **<font color = red>【注意】：</font>**
 
@@ -399,6 +401,15 @@ HashMap在进行扩容时，**不需要重新计算hash值**。`rehash`方式非
 【原因】：
 
 - JDK7扩容采用头插法，导致数据-移动到扩容后的数组顺序发生变化	
+
+<br>
+
+## 5. 删除remove
+
+- 若为树，查找为`O(logn)`
+- 若为链表，查找为`O(n)`
+
+<br>
 
 ## 6. 并发问题
 
@@ -495,4 +506,12 @@ public static void main(String[] args) {
     }
 }
 ```
+
+
+
+## 7. JDK7多线程下扩容产生循环链表
+
+> https://www.bilibili.com/video/BV1x741117jq?p=2
+>
+> - 37:40开始
 

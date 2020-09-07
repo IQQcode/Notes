@@ -1,6 +1,6 @@
 >  [**初识Spring**](https://blog.csdn.net/weixin_43232955/article/details/97973247)，这篇文章我简单的介绍了一些关于Spring的优势和核心概念。这篇文章对**Ioc**和**DI**对于初接触Spring的自己来说做个了结
 
-### 1. 程序的耦合
+## 1. 程序的耦合
 
 > 我们再来谈一谈程序的耦合
 
@@ -28,7 +28,7 @@
 
 - 第二步：通过读取配置文件来获取要创建的对象全限定类名
 
-### 2. 控制反转IoC
+## 2. 控制反转IoC
 
 ### 控制反转理解
 
@@ -192,6 +192,7 @@ public class Test {
 ```
 
 > <font color=red>数媒专业在做实验...</font>
+>
 > 软工专业听讲座！
 
 我们替老Q想的这个办法就叫控制反转（Inversion of Control，缩写为 IoC），它不是一种技术，而是一种思想——指导我们设计出松耦合的程序。
@@ -353,11 +354,11 @@ ApplicationContext的三个常用实现类：
 
 - 反射获取
 
-### 3. [Bean对象](https://blog.csdn.net/weixin_43232955/article/details/105755021)
+### [Bean对象](https://blog.csdn.net/weixin_43232955/article/details/105755021)
 
 > JavaBean，Spring Bean对象的理解
 
-### getBean的用法
+**getBean的用法**
 
 ```java
 ApplicationContext apps = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -373,7 +374,7 @@ userService.save();
 
 
 
-### 4. 依赖注入DI
+## 4. 依赖注入DI
 
 依赖注入（Dependency Injection，简称 DI）是实现控制反转的主要方式。它是Spring框架核心IoC的具体实现。 
 

@@ -304,8 +304,6 @@ public int search(int[] nums, int target) {
 
 ## 4. 寻找左侧边界的二分搜索
 
-
-
 以下是最常见的代码形式，其中的标记是需要注意的细节：
 
 ```java
