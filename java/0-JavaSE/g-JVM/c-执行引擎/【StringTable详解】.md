@@ -68,7 +68,7 @@ String str = "Hello";
 
 ----------------------
 
-<font color = red>**字符串常量池中是不会存储相同内容的字符串的**</font>
+<font color = red>**字符串常量池中是 不会 存储相同内容的字符串的**</font>
 
 String的 String pool是一个固定大小的 **Hashtable**，默认值大小长度是`1009`。如果放进入String pool的 String非常多，就会造成Hash冲突严重，从而导致链表会很长，而链表长了后造成的影响就是当调用`String.intern()`时性能会大幅下降
 
@@ -149,7 +149,7 @@ s4到底是怎么将s1和s2拼接起来的呢？
 
 查看字节码指令的时候，可以看到每个new指令之后都会跟一个dup指令。
 
-因为new指令之后紧跟着就会1调用指 invokespecial行初始化：下面是 invokespecia的指令格式。看一下操作数栈，需要一objectref彐用（对象的地址），后面是可选的数；由于初始化没有返回值，调用之后没有东西入栈（用…表示没有入栈）
+因为new指令之后紧跟着就会调用指 invokespecial行初始化：下面是 invokespecia的指令格式。看一下操作数栈，需要一objectref彐用（对象的地址），后面是可选的数；由于初始化没有返回值，调用之后没有东西入栈（用…表示没有入栈）
 
 ![preview](https://pic2.zhimg.com/v2-50373bbe5e54173177b8b1427081730c_r.jpg?source=1940ef5c)
 
@@ -298,20 +298,15 @@ String s = new String("ab");
 **new String("a") + new String("b")呢？**
 
 - 对象1：`new StrintBuilder()`
-
 - 对象2：`new String("a")`
-
 - 对象3：字符串常量池中的`"a"`
-
 - 对象4：`new String("b")`
-
 - 对象5：字符串常量池中的`"b"`
+- 对象6：`new String("ab")`
 
 【深入剖析】
 
 StringBuilder的`toString()`：
-
-- 对象6：`new String("ab")`
 
 > toStirng()的调用，在字符串常量池中，并没有生成"ab"
 > 
