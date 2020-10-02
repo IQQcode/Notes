@@ -2,9 +2,9 @@
 
 重量级锁，`synchronized`都是加到了方法上，效率低
 
-<img src="4-Current.assets/image-20200812120341499.png" alt="image-20200812120341499" style="zoom: 60%;" />
+![c](c-ConcurrentHashMap.assets/image-20200812120341499.png)
 
-![image-20200812121435449](4-Current.assets/image-20200812121435449.png)
+![image-20200812121435449](c-ConcurrentHashMap.assets/image-20200812121435449.png)
 
 5和3添加的位置不同，但是由于是重量级锁，所以5无法获取锁，只能等待
 
@@ -14,7 +14,7 @@
 
 **JDK1.7的ConcurrentHashMap：**
 
-![JDK1.7的ConcurrentHashMap](4-Current.assets/ConcurrentHashMap分段锁.jpg)
+![JDK1.7的ConcurrentHashMap](c-ConcurrentHashMap.assets/ConcurrentHashMap分段锁.jpg)
 
 **JDK7 ConcurrentHashMap 是由 Segment 数组结构和 HashEntry 数组结构组成**
 
@@ -48,7 +48,7 @@ Segment 实现了 **ReentrantLock**，所以 Segment 是一种可重入锁，扮
 
 **JDK1.8的ConcurrentHashMap（TreeBin: 红黑二叉树节点 Node: 链表节点）：**
 
-![JDK1.8的ConcurrentHashMap](4-Current.assets/JDK1.8-ConcurrentHashMap-Structure.jpg)
+![JDK1.8的ConcurrentHashMap](c-ConcurrentHashMap.assets/JDK1.8-ConcurrentHashMap-Structure.jpg)
 
 ConcurrentHashMap取消了Segment分段锁，采用**CAS**和**synchronized**来保证并发安全。
 

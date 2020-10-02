@@ -1,4 +1,4 @@
-﻿> 这篇文章主要是关于 **java.util.concurrent(JUC)** 类包下的常用类
+> 这篇文章主要是关于 **java.util.concurrent(JUC)** 类包下的常用类
 > 
 > </br>
 > 
@@ -24,11 +24,13 @@ public CountDownLatch(int count) { }; //参数count为计数值
 - `void await()` ：等待线程调⽤用`await()`方法的线程会被一直被阻塞，它会等待直到count计数器的值为0才继续执行
 - `boolean await(long timeout, TimeUnit unit)` ： 同上，但是加入了超时参数，如果超时了计数还不为0，也会照样执行，避免了一直阻塞
 - `void countDown()` ： 计数减一
-- <img src = "https://img-blog.csdnimg.cn/2019081514311175.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzIzMjk1NQ==,size_16,color_FFFFFF,t_70" width = "50%">
+
+<img src = "https://img-blog.csdnimg.cn/2019081514311175.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzIzMjk1NQ==,size_16,color_FFFFFF,t_70" width = "50%">
+
 - **闭锁 : 每个 `CountDowmLatch`对象的计数器在值减为0时不可恢复原值**
 
 > **使用场景**
-> </br>
+> 
 > 比如有一个任务A，它要等待其他3个任务执行完毕之后才能执行，此时就可以利用**CountDownLatch**来实现这种功能.
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190815190401103.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzIzMjk1NQ==,size_16,color_FFFFFF,t_70)
@@ -77,11 +79,17 @@ public class CountDownLatchTest {
 ```
 
 运行结果：
+
 <img src = "https://img-blog.csdnimg.cn/20190815145130454.gif" width ="60%">
+
 如果在输出 `All Runners have reached destination.\nGame end!`之前不调用 `await()`
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190815145224365.png)
+
 则运行结果会出现：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190815144804432.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzIzMjk1NQ==,size_16,color_FFFFFF,t_70)
+
 此时主线程和A，B，C 三个线程并行，没有调用`await()`的主线程将不再阻塞.
 
 ### 2. CyclicBarrier-循环栅栏
@@ -94,8 +102,8 @@ public class CountDownLatchTest {
 > **使用场景**
 > </br>
 > 例如三个子线程 A,B,C 在分别写入数据，其中 A线程写完数据后会阻塞，等待 B,C线程也写完数据后，才恢复执行；此时主线程才能读数据
-> 
-> ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190815191955880.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzIzMjk1NQ==,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](【JUC包下的常用工具类】.assets/20190815191955880.png)
 
 **CyclicBarrier提供2个构造器器：**
 
@@ -174,6 +182,7 @@ public class CyclicBarrierActionTest {
 待 A，B，C分别完成任务后，饺子才可以吃.
 
 执行内容好像忘记改了，但是步骤是一样的
+
 <img src = "https://img-blog.csdnimg.cn/20190815155130827.gif" width = "60%">
 
 执行过程分析：
