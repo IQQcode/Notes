@@ -18,6 +18,14 @@ public class SafeArrayList {
 
 ![](a-ArraayList.assets/20200606164555.png)
 
+
+
+
+
+
+
+
+
 **【方法一】我们先想到到是用Vector来替换ArrayList**
 
 **【方法二】Collections线程安全集合类**
