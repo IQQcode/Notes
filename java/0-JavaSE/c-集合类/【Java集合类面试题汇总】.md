@@ -6,8 +6,8 @@
 
 ![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200525154022.png)
 
-- **List(顺序好帮手)：** List接口存储顺序不唯一，可以有序的存储对象
-- **Set(有序不重复):** 不允许重复的集合，不会有多个元素引用相同的对象。
+- **List(顺序好帮手)：** List接口存储顺序唯一，可以有序的存储对象
+- **Set(有序不重复):** 不允许重复的集合，不会有多个元素引用相同的对象
 - **Map(用key找value):** 使用键值对存储。Key唯一，Value可重复
 
 Collection
@@ -47,26 +47,6 @@ Map：此接口实现的Key到Value的映射，一个Map中不能包含相同的
 - Table是同步的
 
 - HashMap：和HashTable的不同之处是，非同步的，且允许null元素的存在
-
---------------------
-
-**List**
-
-1. ArrayList 与 Vector区别；
-2. ArrayList 与 LinkedList区别；
-3. ArrayList是线程不安全的List集合；
-4. 了解JUC包下的线程安全List(CopyWiterArrayList)
-
-**Set**
-
-1. Set集合与Map集合的关系
-2. hashCode，equals方法关系
-3. Comparable，Compartor接口的关系
-
-**Map**
-
-1. 请对比HashMap，hashtable关系
-2. 是否了解ConcurrentHashMap以及实现原理
 
 ------------------------
 
@@ -171,63 +151,9 @@ public HashSet() {
 | 调用 `put()`向map中添加元素       | 调用 `add()`方法向Set中添加元素                                                 |
 | HashMap使用键（Key）计算hashCode | HashSet使用成员对象来计算hashCode值，对于两个对象来说hashCode可能相同，所以equals()方法用来判断对象的相等性 |
 
-### 3. HashMap的底层实现
+### 3. ConcurrentHashMap 和 Hashtable 的区别
 
-> TreeMap、TreeSet以及JDK1.8之后的HashMap底层都用到了红黑树。红黑树就是为了解决二叉查找树的缺陷，因为二叉查找树在某些情况下会退化成一个线性结构。
-
-HashMap底层的实现采用了哈希表，哈希表的实现：
-
-- JDK 1.8之前：数组 + 单向链表
-- JDK 1.8之后：数组 + 单向链表 / 红黑树（链表的长度超过8）
-
-`Node<K,V>[] table`就是HashMap核心的数据结构，也称之为“位桶数组”。
-
-HashMap集合是一个无序的集合，不保证映射的顺序，存储元素和取出元素的顺序有可能不一致。
-
-### 4. ConcurrentHashMap的底层实现
-
-![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200601152340.jpeg)
-
-![](https://iqqcode-blog.oss-cn-beijing.aliyuncs.com/img/20200601152410.jpeg)
-
-ConcurrentHashMap将数据分为一段一段的存储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据时，其他段的数据也能被其他线程访问。
-
-### 5. 说说HashMap的扩容机制？是什么时候扩容，扩容干了什么？
-
-HashMap的位桶数组，初始大小为16。实际使用时，显然大小是可变的。如果位桶数组中的元素达到`0.75 * 数组length`，就重新调整数组大小变为原来的2倍大小。
-
-HashMap 总是使用2的幂作为哈希表的大小，`tableSize`方法保证了 HashMap 总是使用2的幂作为哈希表的大小：
-
-```java
-    /**
-     * Returns a power of two size for the given target capacity.
-     */
-    static final int tableSizeFor(int cap) {
-        int n = cap - 1;
-        n |= n >>> 1;
-        n |= n >>> 2;
-        n |= n >>> 4;
-        n |= n >>> 8;
-        n |= n >>> 16;
-        return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
-    }
-```
-
-如果我们传入的大小不是2的幂次方，那么通过`tableSize`方法会使我们传入的数变为最捷径2的幂次方的数
-
-> 比如传入的是3，那么就变成4；
-> 
-> 传入的是5，就变成8；
-
-`int n = cap - 1; `处理传入的数本身就是2的幂次方，在通过运算之后保持不变。
-
-如果不`cap - 1`，比如传入的是2，再移位或+1之后变为了4，而2本身就是2的幂次方，不需要做处理。`-1`保证了移位或+1之后不变。
-
-**扩容很耗时，扩容的本质是定义新的更大的数组，并将原数组内容拷贝到新数组中。**
-
-### 6. ConcurrentHashMap 和 Hashtable 的区别
-
-### 7. 说说常见的hash算法,解决hash冲突的方式有哪些
+### 4. 说说常见的hash算法,解决hash冲突的方式有哪些
 
 目前流行的 Hash 算法包括 MD5、SHA-1 和 SHA-2
 

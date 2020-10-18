@@ -8,6 +8,8 @@
 
 ![image-20200812121435449](c-ConcurrentHashMap对比.assets/image-20200812121435449.png)
 
+
+
 5和3添加的位置不同，但是由于是重量级锁，所以5无法获取锁，只能等待
 
 - HashTable不允许`key`和`value`为null
