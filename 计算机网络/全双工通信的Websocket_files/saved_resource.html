@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)https://halfrost.com/websocket/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NaturalReaders Selection Detection Icon</title>
+<link type="text/css" rel="stylesheet" href="chrome-extension://kohfgcgbkjodfcfkcackpagifgbcmimk/injected/nr-ext-dom/nr-ext-select-icon/nr-ext-select-icon.css"></head>
+<body class="vsc-initialized">
+    <div class="nr-ext-icon">
+        <button id="readIcon" class="rs-btn-play">
+    </button></div>
+
+</body><script id="allow-copy_script">(function agent() {
+    let unlock = false
+    document.addEventListener('allow_copy', (event) => {
+      unlock = event.detail.unlock
+    })
+
+    const copyEvents = [
+      'copy',
+      'cut',
+      'contextmenu',
+      'selectstart',
+      'mousedown',
+      'mouseup',
+      'mousemove',
+      'keydown',
+      'keypress',
+      'keyup',
+    ]
+    const rejectOtherHandlers = (e) => {
+      if (unlock) {
+        e.stopPropagation()
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation()
+      }
+    }
+    copyEvents.forEach((evt) => {
+      document.documentElement.addEventListener(evt, rejectOtherHandlers, {
+        capture: true,
+      })
+    })
+  })()</script></html>
