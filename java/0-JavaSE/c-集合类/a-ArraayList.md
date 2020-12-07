@@ -20,11 +20,7 @@ public class SafeArrayList {
 
 
 
-
-
-
-
-
+### 解决方法
 
 **【方法一】我们先想到到是用Vector来替换ArrayList**
 

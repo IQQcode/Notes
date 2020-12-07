@@ -1,5 +1,4 @@
-﻿@[toc]
-**javaIO--BIO(阻塞式IO)**
+﻿**javaIO--BIO(阻塞式IO)**
 
 掌握核心的五个类：
 

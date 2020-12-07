@@ -12,8 +12,8 @@
 
 5和3添加的位置不同，但是由于是重量级锁，所以5无法获取锁，只能等待
 
-- HashTable不允许`key`和`value`为null
-- ConcurrentHashMap不允许`key`和`value`为null
+- HashTable **不允许** `key`和`value`为null
+- ConcurrentHashMap **不允许** `key`和`value`为null
 - **HashTable是线程安全的**
 
 <br>
@@ -26,17 +26,23 @@
 
 
 
-## 2. Hashtable与ConcurrentHashMap对比
+## 2. Hashtable与HashMap对比
 
-- **实现方式不同**：Hashtable 继承了 Dictionary类，而 HashMap 继承的是 AbstractMap 类。
+- **线程安全：**Hashtable线程安全
+
+- **实现方式不同**：Hashtable 继承了 Dictionary类，而 HashMap 继承的是 AbstractMap 类。二者都实现了Map接口
 
 - **初始化容量不同**：HashMap 的初始容量为：16，Hashtable 初始容量为：11，两者的负载因子默认都是：0.75。
 
-- **扩容机制不同**：当现有容量大于总容量 * 负载因子时，HashMap 扩容规则为当前容量翻倍，Hashtable 扩容规则为当前容量翻倍 + 1。
+- **扩容机制不同**：当现有容量大于总容量 * 负载因子时，HashMap 扩容规则为当前容量翻倍；Hashtable 扩容规则为`2N + 1`。
 
 - **迭代器不同**：HashMap 中的 Iterator 迭代器是 **fail-fast** 的，而 Hashtable 的 Enumerator 不是 fail-fast 的。
 
 	所以，当其他线程改变了HashMap 的结构，如：增加、删除元素，将会抛出`ConcurrentModificationException` 异常，而 Hashtable 则不会。
+	
+- **key和value是否允许null值：** Hashtable不予许为`null-null`；HashMap只允许有一个
+
+> 当get()方法返回null值时，可能是 HashMap中没有该键，也可能使该键所对应的值为null。因此，在HashMap中不能由get()方法来判断HashMap中是否存在某个键， 而应该用**containsKey()**方法来判断
 
 <br>
 
@@ -135,6 +141,8 @@ ConcurrentHashMap定位一个元素的过程需要进行**两次Hash**操作
 
 ConcurrentHashMap 的 get 方法是非常高效的，**因为整个过程都不需要加锁**
 
+
+
 如果容量大小是16，他的并发度就是16，可以同时允许16个线程操作16个Segment而且还是线程安全的
 
 所以，通过这一种结构，ConcurrentHashMap的并发能力可以大大的提高。
@@ -211,7 +219,7 @@ class Node<K,V> implements Map.Entry<K,V> {
 
 JDK-7版本的**ReentrantLock + Segment + HashEntry**
 
-JDK-8版本中**synchronized + CAS + HashEntry + 红黑树**
+JDK-8版本中**synchronized + CAS + Node + 红黑树**
 
 **1. 数据结构**：取消了Segment分段锁的数据结构，取而代之的是数组+链表+红黑树的结构。
 
